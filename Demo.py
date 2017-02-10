@@ -55,10 +55,29 @@ def droite(phi, vitesse):
 	print("droite    ", phi)
 	
 def stop(phi):
-	MyChip.DoSendMsg(0x708,[0x25, 0xff,128], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM1 (right)
-	sleep(0.01)
-	MyChip.DoSendMsg(0x708,[0x26, 0xff,128], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM2 (left)
-	sleep(0.01)
+	debut = time.time()
+	fin = debut + 1.5
+	while (time.time()<fin):
+		MyChip.DoSendMsg(0x708,[0x25, 0xff,145], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM1 (right)
+		#sleep(0.01)
+		MyChip.DoSendMsg(0x708,[0x26, 0xff,155], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM2 (left)
+		#sleep(0.01)
+	debut = time.time()
+	fin = debut +2
+	while (time.time() <fin):
+		MyChip.DoSendMsg(0x708,[0x25, 0xff,160], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM1 (right)
+		MyChip.DoSendMsg(0x708,[0x26, 0xff,145], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM2 (left)
+                #sleep(0.01)
+	debut = time.time()
+	fin = debut +1
+	while (time.time() < fin):
+		MyChip.DoSendMsg(0x708, [0x25, 0xff, 145], 3,MyChip.MCP2515_TX_STD_FRAME)
+		MyChip.DoSendMsg(0x708,[0x26, 0xff,155], 3,MyChip.MCP2515_TX_STD_FRAME)
+	debut = time.time()
+	fin = debut + 1.5
+	while(time.time()<fin):
+		MyChip.DoSendMsg(0x708, [0x25, 0xff, 128], 3,MyChip.MCP2515_TX_STD_FRAME)
+		MyChip.DoSendMsg(0x708,[0x26, 0xff,128], 3,MyChip.MCP2515_TX_STD_FRAME) 
 	print("stop    ", phi)
 	
 def avance(vitesse):
@@ -163,7 +182,7 @@ while 1==1:
         if(distance>40):
             if (distance>400):
                 distance = 30 
-            speed_ref = 25*26*(distance-30)
+            speed_ref = 30*26*(distance-30)
             ToSPI_1 = [0x01, 0x4F, 0x00, 0x00, 0x00]
             GetData_ans = MySPI_FPGA.xfer2(ToSPI_1)
             string = bin(GetData_ans[1])
@@ -186,11 +205,17 @@ while 1==1:
             Ki = 0.0005
             error_prev = error_add
             error_add = speed_ref -speed
+            myDutyCyclePrev = myDutyCycle
             myDutyCycle = int(myDutyCycle + (Kp*error_add)+Ki*error_add -Kp*error_prev)
-            if (myDutyCycle >=160):
-                myDutyCycle = 160
-            elif (myDutyCycle <=50):
-                myDutyCycle =50
+            diffDuty =myDutyCycle - myDutyCyclePrev
+            if(diffDuty > 2):
+                myDutyCycle = myDutyCyclePrev +2
+            if (diffDuty <-5):
+                myDutyCycle = myDutyCyclePrev -2 
+            if (myDutyCycle >=255):
+                myDutyCycle = 255
+            elif (myDutyCycle <=30):
+                myDutyCycle =30
             print(distance, myDutyCycle)
             MyChip.DoSendMsg(0x708,[0x25, 0xff,myDutyCycle], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM1 (right)
             MyChip.DoSendMsg(0x708,[0x26, 0xff,myDutyCycle], 3,MyChip.MCP2515_TX_STD_FRAME) # PWM2 (left)
