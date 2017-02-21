@@ -1,0 +1,185 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/simulation/modelsim
+vBaudrate_Generator
+Z1 DXx6 sv_std 3 std 0 22 <EOTafDcUY:cQeO^ICn]m3
+Z2 !s110 1487688492
+!i10b 1
+!s100 O`:W:K4`l18[6zdFM0b;A0
+IF5=HYR:AWBN[GLfS7ooOo2
+Z3 V`JN@9S9cnhjKRR_L]QIcM3
+Z4 !s105 UART_Dynamixel_sv_unit
+S1
+R0
+Z5 w1463311702
+Z6 8C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv
+Z7 FC:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv
+L0 315
+Z8 OV;L;10.3d;59
+r1
+!s85 0
+31
+Z9 !s108 1487688492.443000
+Z10 !s107 C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv|
+Z11 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test|C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv|
+!i113 1
+Z12 o-sv -work work
+Z13 !s92 -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test
+n@baudrate_@generator
+vDyna_test
+R1
+R2
+!i10b 1
+!s100 :Tlc?>T<IWDB_?c3T13[e0
+ITabI_DII:I2W:;MHm:f6B1
+R3
+!s105 Dyna_test_sv_unit
+S1
+R0
+w1487688361
+8C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv
+FC:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv
+L0 6
+R8
+r1
+!s85 0
+31
+!s108 1487688492.980000
+!s107 C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test|C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv|
+!i113 1
+R12
+R13
+n@dyna_test
+vMyTestBench
+R1
+!s110 1487688493
+!i10b 1
+!s100 ERh`OM`f15BK5Z>F]oe;S3
+IVmdVJLBaL5k5^j3B2j0122
+R3
+!s105 MyTestBench_sv_unit
+S1
+R0
+w1487626607
+8C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv
+FC:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv
+L0 4
+R8
+r1
+!s85 0
+31
+!s108 1487688493.186000
+!s107 C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test|C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv|
+!i113 1
+R12
+R13
+n@my@test@bench
+vUART_Dynamixel
+R1
+R2
+!i10b 1
+!s100 ijnm3]O8NhdJV54CQXFf=2
+IiJ17R;zU^c?GT=ch=g]Fa1
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 6
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+n@u@a@r@t_@dynamixel
+vUART_Dynamixel_RXD
+R1
+R2
+!i10b 1
+!s100 FAdjRn2gF1dZ0Q=NQ@jR^3
+IGRlFWocoX`99:g^eW1^kL1
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 203
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+n@u@a@r@t_@dynamixel_@r@x@d
+vUART_Dynamixel_TXD
+R1
+R2
+!i10b 1
+!s100 gDDiV4JZYGWjN^aQ_gEDS2
+I6S@oK9YlU9`O0VN3<8Wk40
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 62
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+n@u@a@r@t_@dynamixel_@t@x@d
+vUART_TX_BYTE
+R1
+R2
+!i10b 1
+!s100 >B?<Q:zOF?N;A=l@Q01jD2
+IJmFQ^=cTKZYa<^7z7S^DV2
+R3
+R4
+S1
+R0
+R5
+R6
+R7
+L0 150
+R8
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+n@u@a@r@t_@t@x_@b@y@t@e

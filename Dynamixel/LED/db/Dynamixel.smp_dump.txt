@@ -1,0 +1,37 @@
+
+State Machine - |Dynamixel|state
+Name state.S3 state.S2 state.S1 state.S0 
+state.S0 0 0 0 0 
+state.S1 0 0 1 1 
+state.S2 0 1 0 1 
+state.S3 1 0 0 1 
+
+State Machine - |Dynamixel|UART_Dynamixel:Dyna|UART_Dynamixel_RXD:rxd|state
+Name state.S3 state.S2 state.S1 state.S0 
+state.S0 0 0 0 0 
+state.S1 0 0 1 1 
+state.S2 0 1 0 1 
+state.S3 1 0 0 1 
+
+State Machine - |Dynamixel|UART_Dynamixel:Dyna|UART_Dynamixel_TXD:txd|state
+Name state.End state.Sent state.Transmit state.Prepare state.Init state.Wait 
+state.Wait 0 0 0 0 0 0 
+state.Init 0 0 0 0 1 1 
+state.Prepare 0 0 0 1 0 1 
+state.Transmit 0 0 1 0 0 1 
+state.Sent 0 1 0 0 0 1 
+state.End 1 0 0 0 0 1 
+
+State Machine - |Dynamixel|UART_Dynamixel:Dyna|UART_Dynamixel_TXD:txd|UART_TX_BYTE:ubyte|state
+Name state.sent state.transmit state.init state.idle 
+state.idle 0 0 0 0 
+state.init 0 0 1 1 
+state.transmit 0 1 0 1 
+state.sent 1 0 0 1 
+
+State Machine - |Dynamixel|spi_slave:spi_slave_instance|state
+Name state.S3 state.S2 state.S1 state.S0 
+state.S0 0 0 0 0 
+state.S1 0 0 1 1 
+state.S2 0 1 0 1 
+state.S3 1 0 0 1 

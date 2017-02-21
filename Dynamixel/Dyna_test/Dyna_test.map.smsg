@@ -1,0 +1,2 @@
+Info (10281): Verilog HDL Declaration information at UART_Dynamixel.sv(16): object "TXD" differs only in case from object "txd" in the same scope
+Info (10281): Verilog HDL Declaration information at UART_Dynamixel.sv(15): object "RXD" differs only in case from object "rxd" in the same scope

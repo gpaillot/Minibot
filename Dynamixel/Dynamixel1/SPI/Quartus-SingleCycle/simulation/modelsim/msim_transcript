@@ -1,0 +1,33 @@
+# Reading C:/Users/GuiP/Documents/altera/modelsim_ase/tcl/vsim/pref.tcl
+# do MyDE0_Nano_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim PE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
+# vmap -modelsim_quiet work rtl_work 
+# Copying C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle/MyDE0_Nano.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 20:28:53 on Feb 20,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle/MyDE0_Nano.sv 
+# -- Compiling module Dynamixel
+# ** Error: C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle/MyDE0_Nano.sv(93): (vlog-2388) 'clk' already declared in this scope (Dynamixel).
+# 
+# ** Error: C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle/MyDE0_Nano.sv(94): (vlog-2388) 'DataToPI' already declared in this scope (Dynamixel).
+# 
+# ** Error: C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle/MyDE0_Nano.sv(294): near "s": syntax error, unexpected IDENTIFIER, expecting class
+# End time: 20:28:54 on Feb 20,2017, Elapsed time: 0:00:01
+# Errors: 3, Warnings: 0
+# ** Error: C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/vlog failed.
+# Error in macro ./MyDE0_Nano_run_msim_rtl_verilog.do line 8
+# C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/vlog failed.
+#     while executing
+# "vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dynamixel/SPI/Quartus-SingleCycle {C:/Users/GuiP/Documents/1_EP..."
+restart -f
+# No Design Loaded!

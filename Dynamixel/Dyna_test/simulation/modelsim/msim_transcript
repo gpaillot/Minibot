@@ -1,0 +1,81 @@
+# Reading C:/Users/GuiP/Documents/altera/modelsim_ase/tcl/vsim/pref.tcl
+# do Dyna_test_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim PE vmap 10.3d Lib Mapping Utility 2014.10 Oct  7 2014
+# vmap -modelsim_quiet work rtl_work 
+# Copying C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# ** Warning: Copied C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
+#          Updated modelsim.ini.
+# 
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 15:48:12 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv 
+# -- Compiling module UART_Dynamixel
+# -- Compiling module UART_Dynamixel_TXD
+# -- Compiling module UART_TX_BYTE
+# -- Compiling module UART_Dynamixel_RXD
+# -- Compiling module Baudrate_Generator
+# 
+# Top level modules:
+# 	UART_Dynamixel
+# End time: 15:48:12 on Feb 21,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 15:48:12 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv 
+# -- Compiling module Dyna_test
+# 
+# Top level modules:
+# 	Dyna_test
+# End time: 15:48:13 on Feb 21,2017, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv}
+# Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
+# Start time: 15:48:13 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv 
+# -- Compiling module MyTestBench
+# 
+# Top level modules:
+# 	MyTestBench
+# End time: 15:48:13 on Feb 21,2017, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  MyTestBench
+# vsim -gui "+altera" -l msim_transcript -do "Dyna_test_run_msim_rtl_verilog.do" 
+# Start time: 15:48:13 on Feb 21,2017
+# Loading sv_std.std
+# Loading work.MyTestBench
+# Loading work.Dyna_test
+# Loading work.UART_Dynamixel
+# Loading work.Baudrate_Generator
+# Loading work.UART_Dynamixel_TXD
+# Loading work.UART_TX_BYTE
+# Loading work.UART_Dynamixel_RXD
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+restart -f
+# Loading sv_std.std
+# Loading work.MyTestBench
+# Loading work.Dyna_test
+# Loading work.UART_Dynamixel
+# Loading work.Baudrate_Generator
+# Loading work.UART_Dynamixel_TXD
+# Loading work.UART_TX_BYTE
+# Loading work.UART_Dynamixel_RXD
+do wave.do
+run 10ms
+# End time: 16:46:03 on Feb 21,2017, Elapsed time: 0:57:50
+# Errors: 0, Warnings: 0
