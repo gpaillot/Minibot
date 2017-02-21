@@ -32,3 +32,20 @@ sleep(0.1)
 ToSPI = [0x00, 0x00, 0x00, 0x00, 0x00]
 FromSPI = MySPI_FPGA.xfer2(ToSPI)
 #print(FromSPI)
+
+
+GPIO.output(MyARM_ResetPin, GPIO.HIGH)
+sleep(0.1)
+GPIO.output(MyARM_ResetPin, GPIO.LOW)
+sleep(0.1)
+
+
+
+ToSPI = [0x80, 0x00, 0x00, 0x00, 0x01]
+FromSPI = MySPI_FPGA.xfer2(ToSPI)
+#print(FromSPI)
+
+ToSPI = [0x81, 0x00, 0x00, 0x00, 0x02]
+FromSPI = MySPI_FPGA.xfer2(ToSPI)
+#print(FromSPI)
+

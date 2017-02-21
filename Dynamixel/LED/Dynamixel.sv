@@ -91,7 +91,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //=======================================================
 
 	logic clk, reset, MemWrite, thread;
-	logic [31:0] PC, Instr, DataAdr, WriteData, ReadData, ReadData_dmem, WriteData2, WriteData3, DataToPI;
+	logic [31:0] PC, Instr, DataAdr, WriteData, ReadData, ReadData_dmem, DataToPI;
 	logic  cs_dmem, cs_led, cs_spi_wr, cs_spi_rd;
 	logic [7:0] led_reg;
 	logic key1,key0;
@@ -106,10 +106,6 @@ input logic 		     [1:0]		GPIO_1_IN
 	logic Write_en, Read_en; 
 	logic [2:0] Rw_ad;
 	logic uart_tx,uart_rx,uart_dir;
-	
-	//assign
-	assign Write_en = 1'b1;
-	assign Read_en = 1'b0;
 	
 	
 	
@@ -138,7 +134,7 @@ input logic 		     [1:0]		GPIO_1_IN
 	assign laser_sync = GPIO_1[7];
 	assign laser_signal =  GPIO_1[8];
 */
-	assign GPIO_1[26] = uart_tx;// 26!!
+	assign GPIO_1[26] = uart_tx;
 	assign uart_rx =  GPIO_1[24];
 	assign GPIO_1[22] = ~uart_dir ;
 	
@@ -158,16 +154,15 @@ input logic 		     [1:0]		GPIO_1_IN
 );
 
 //assign WriteData = 32'd3;
-
-
+//assign DataAdrM = 32'd4;
 
 	// LED logic	
 	assign LED = led_reg;	
 	always_ff @(posedge clk)
 		begin 
-    	 led_reg[0] <= uart_rx;
-		 led_reg[1] <= uart_tx;
-		 led_reg[2] <= uart_dir;
+    	 led_reg[0] <= spi_data[0];
+		 led_reg[1] <= spi_data[1];
+		 led_reg[2] <= spi_data[2];
 		 led_reg[3] <= spi_data[3];
 		 led_reg[4] <= spi_data[4];
 		 led_reg[5] <= spi_data[5];
@@ -176,7 +171,7 @@ input logic 		     [1:0]		GPIO_1_IN
 		 end
 
 
-
+/*
 	// SPI output Register
 	 always_ff @(posedge clk)
 	begin 
@@ -193,6 +188,11 @@ input logic 		     [1:0]		GPIO_1_IN
 		DataAdrM = 32'bx;
 		end
 	end
+*/	
+	
+//=======================================================
+//  ALLUMAGE LED 
+//=======================================================
 
 	typedef enum logic [1:0] {S0,S1,S2, S3} statetype;
 	statetype state, nextstate;
@@ -213,16 +213,21 @@ input logic 		     [1:0]		GPIO_1_IN
 		nextstate = state;
 		Rw_ad = 3'b000; 
 		Write_data = 32'h00000000;
+		DataAdrM = 32'd0;
 		
 		case (state)
 			S0	:  begin			
 						Rw_ad = 3'b101;
-						Write_data = 32'he003_04fe;
+						DataAdrM = 32'h0000_0000;
+						Write_data = spi_data;
+						//Write_data = 32'he003_04fe;
 						nextstate = S1;
 					end
 			S1 : begin			
 					Rw_ad = 3'b110;
-					Write_data = 32'h0000_0119;
+					DataAdrM = 32'h0000_0004;
+					Write_data = spi_data;
+					//Write_data = 32'h0000_0119;
 					nextstate = S2;
 					end					
 			S2 : begin 			
@@ -239,46 +244,6 @@ input logic 		     [1:0]		GPIO_1_IN
 			
 		endcase
 	end
-/*
-	
-	/*
 
-	//Allumage led 
-	typedef enum logic [1:0] {first, second, third} statetype;
-	statetype state, nextstate;
-	
-	
-	logic [63:0] All_data;
-	
-	
-	always_ff @(posedge clk, posedge key0) begin
-		if(key0) state <= first;
-		else state <= nextstate;
-	end
-	
-	always_comb begin
-	//nextstate = state;
-	//All_data = 64'hf603_04fe_0000_0119;
-		case(state)
-			first: if(key1) nextstate = second;
-			second: nextstate = third;
-			third: nextstate = first;
-		endcase
-	end
-	
-	always_ff @(posedge clk, posedge key0) begin
-		if (state==first) Rw_ad <= 3'b100;
-		else if (state==second) begin
-			Rw_ad <= 3'b101;
-			Write_data <= 32'hf603_04fe;
-		end
-		else if (state==third) begin
-			Rw_ad <= 3'b110;
-			Write_data <= 32'h0000_0119;
-		end
-	end
-			
-		
-	*/
 
 endmodule
