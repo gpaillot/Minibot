@@ -65,7 +65,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //  SPI
 //=======================================================
 		logic 			spi_clk, spi_cs, spi_mosi, spi_miso, cs_spi;
-		logic [31:0]  spi_data, DataAdrR, DataAdrW;
+		logic [31:0]  spi_data, DataAdrR, DataAdrW; //DataAdrR: from PI to DE0, DataAdrW: from DE0 to PI
 
 	spi_slave spi_slave_instance(
 		.SPI_CLK    (spi_clk),
@@ -107,13 +107,14 @@ input logic 		     [1:0]		GPIO_1_IN
 	logic Write_en, Read_en; 
 	logic [2:0] Rw_ad;
 	logic uart_tx,uart_rx,uart_dir;
+	logic Reset;
 	
 	
 	
 	//logic a,b;
 
 	assign clk = CLOCK_50;
-	assign reset = GPIO_0_PI[1];
+	//assign reset = GPIO_0_PI[1];
 	
 	// keys
 	assign key0=~KEY[0];
@@ -142,7 +143,7 @@ input logic 		     [1:0]		GPIO_1_IN
 
 	UART_Dynamixel Dyna (
 		.clk(CLOCK_50),
-		.reset(key0),
+		.reset(Reset),
 		.write_en(Write_en),
 		.read_en(Read_en),
 		.rw_ad(Rw_ad),
@@ -151,7 +152,7 @@ input logic 		     [1:0]		GPIO_1_IN
 		.RXD(uart_rx),
 		.TXD(uart_tx),
 		.UART_DIR(uart_dir),
-		.debug(Debug)
+		.debug(Debug),
 );
 
 
@@ -160,7 +161,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //  READ DATA
 //=======================================================
 
-	typedef enum logic [2:0] {S0,S1,S2, S3, S4, S5, S6, S7} statetype;
+	typedef enum logic [2:0] {S0,S1,S2, S3, S4} statetype; //,S5,  S6, S7} statetype;
 	statetype state, nextstate;
 	
 // State Register & Bit counter & SPI Register & MISO
@@ -181,20 +182,24 @@ input logic 		     [1:0]		GPIO_1_IN
 		Write_data = 32'h00000000;
 		//WriteData = 32'h0;
 		DataAdrR = 32'h0;
+		Write_en = 1'b0;
+		Read_en = 1'b0;
 		
 		case (state)
 			S0	:  begin			
 						Rw_ad = 3'b101;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						Write_data = {checksum,24'h02_04fe};
+						DataAdrR = 32'd0;
+						Write_data = spi_data;
 						nextstate = S1;
 					end
 			S1 : begin			
 						Rw_ad = 3'b110;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						Write_data = 32'h0000_012b;
+						DataAdrR = 32'd4;
+						Write_data = spi_data;
 						nextstate = S2;
 					end					
 			S2 : begin 			
@@ -206,45 +211,50 @@ input logic 		     [1:0]		GPIO_1_IN
 					end
 			S3: begin
 						Rw_ad = 3'b100;
+						Write_en = 1'b0;
+						Read_en = 1'b1;
+						if(Read_data == 32'b1) nextstate = S4; // quand TXD_done => 1
+						else nextstate = S3;
+					end	
+			S4: begin
+						Rw_ad = 3'b100;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
 						Write_data = 32'd0; // TXD_en => 0
-						nextstate = S4;
+						nextstate = S0;
 					end
-			S4: begin
-						Rw_ad = 3'b100;
-						Write_en = 1'b0;
-						Read_en = 1'b1;
-						DataAdrR = 32'h0;
-						nextstate = S5;
-					end
+			/*S5 : begin 
+				nextstate = S5;
+				end
 			S5: begin
-						Rw_ad = 3'b001;
+						Reset = 1'b1;
+						Rw_ad = 3'b000;
 						Write_en = 1'b0;
 						Read_en = 1'b1;
-						DataAdrR = 32'd4;
-						nextstate = S6;
+						DataAdrW = 32'd4;
+						nextstate = S;
 					end
 			S6: begin
 						Rw_ad = 3'b010;
 						Write_en = 1'b0;
 						Read_en = 1'b1;
-						DataAdrR = 32'd8;
+						DataAdrW = 32'd8;
 						nextstate = S7;
 					end
 			S7: begin
 						Rw_ad = 3'b000;
 						Write_en = 1'b0;
 						Read_en = 1'b1;
-						DataAdrR = 32'd12;
+						DataAdrW = 32'd12;
 						nextstate = S0;
 					end
-			
+			*/
 		endcase
 	end
 
-//assign WriteData = Read_data;
-assign WriteData = 32'd3;
+assign WriteData = Read_data;
+//assign WriteData = 32'd3;
+//assign DataAdrR = 32'd4;
 
 
 	// LED logic	
@@ -270,7 +280,7 @@ assign WriteData = 32'd3;
 		begin
 		cs_spi = 1;
 		DataToPI<= WriteData;
-		DataAdrW = 32'h0000_0000;
+		//DataAdrW = 32'h0000_0000;
 		end
 		else
 		begin
@@ -318,14 +328,14 @@ assign WriteData = 32'd3;
 		case (state)
 			S0	:  begin			
 						Rw_ad = 3'b101;
-						DataAdrW = 32'h0000_0000;
+						DataAdrR = 32'h0000_0000;
 						Write_data = spi_data;
 						//Write_data = 32'he003_04fe;
 						nextstate = S1;
 					end
 			S1 : begin			
 					Rw_ad = 3'b110;
-					DataAdrW = 32'h0000_0004;
+					DataAdrR = 32'h0000_0004;
 					Write_data = spi_data;
 					//Write_data = 32'h0000_0119;
 					nextstate = S2;

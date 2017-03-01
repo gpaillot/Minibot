@@ -43,10 +43,9 @@ Contributor(s):
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>Functions.h</itemPath>
       <itemPath>GPIOClass.h</itemPath>
       <itemPath>MyDE0Nano.h</itemPath>
-      <itemPath>SendMessage.h</itemPath>
-      <itemPath>checksum.h</itemPath>
       <itemPath>globals.h</itemPath>
       <itemPath>misc.h</itemPath>
     </logicalFolder>
@@ -57,10 +56,9 @@ Contributor(s):
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>Functions.cpp</itemPath>
       <itemPath>GPIOClass.cpp</itemPath>
       <itemPath>MyDE0Nano.cpp</itemPath>
-      <itemPath>SendMessage.cpp</itemPath>
-      <itemPath>checksum.cpp</itemPath>
       <itemPath>globals.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
       <itemPath>misc.cpp</itemPath>
@@ -89,6 +87,10 @@ Contributor(s):
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GPIOClass.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GPIOClass.h" ex="false" tool="3" flavor2="0">
@@ -96,14 +98,6 @@ Contributor(s):
       <item path="MyDE0Nano.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MyDE0Nano.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SendMessage.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SendMessage.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="checksum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="checksum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="globals.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -145,6 +139,10 @@ Contributor(s):
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="Functions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Functions.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="GPIOClass.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="GPIOClass.h" ex="false" tool="3" flavor2="0">
@@ -152,14 +150,6 @@ Contributor(s):
       <item path="MyDE0Nano.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="MyDE0Nano.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="SendMessage.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="SendMessage.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="checksum.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="checksum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="globals.cpp" ex="false" tool="1" flavor2="0">
       </item>

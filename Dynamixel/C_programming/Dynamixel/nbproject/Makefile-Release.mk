@@ -35,10 +35,9 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/Functions.o \
 	${OBJECTDIR}/GPIOClass.o \
 	${OBJECTDIR}/MyDE0Nano.o \
-	${OBJECTDIR}/SendMessage.o \
-	${OBJECTDIR}/checksum.o \
 	${OBJECTDIR}/globals.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/misc.o
@@ -68,6 +67,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dynamixel: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/dynamixel ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/Functions.o: Functions.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Functions.o Functions.cpp
+
 ${OBJECTDIR}/GPIOClass.o: GPIOClass.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -77,16 +81,6 @@ ${OBJECTDIR}/MyDE0Nano.o: MyDE0Nano.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MyDE0Nano.o MyDE0Nano.cpp
-
-${OBJECTDIR}/SendMessage.o: SendMessage.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/SendMessage.o SendMessage.cpp
-
-${OBJECTDIR}/checksum.o: checksum.cpp
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/checksum.o checksum.cpp
 
 ${OBJECTDIR}/globals.o: globals.cpp
 	${MKDIR} -p ${OBJECTDIR}
