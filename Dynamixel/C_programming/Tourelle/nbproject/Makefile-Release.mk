@@ -36,10 +36,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/GPIOClass.o \
+	${OBJECTDIR}/MyDE0Nano.o \
 	${OBJECTDIR}/MyMCP2515.o \
+	${OBJECTDIR}/globals.o \
 	${OBJECTDIR}/initTourelle.o \
 	${OBJECTDIR}/main.o \
-	${OBJECTDIR}/stop.o
+	${OBJECTDIR}/stop.o \
+	${OBJECTDIR}/tourelle.o
 
 
 # C Compiler Flags
@@ -71,10 +74,20 @@ ${OBJECTDIR}/GPIOClass.o: GPIOClass.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/GPIOClass.o GPIOClass.cpp
 
+${OBJECTDIR}/MyDE0Nano.o: MyDE0Nano.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MyDE0Nano.o MyDE0Nano.cpp
+
 ${OBJECTDIR}/MyMCP2515.o: MyMCP2515.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/MyMCP2515.o MyMCP2515.cpp
+
+${OBJECTDIR}/globals.o: globals.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/globals.o globals.cpp
 
 ${OBJECTDIR}/initTourelle.o: initTourelle.cpp
 	${MKDIR} -p ${OBJECTDIR}
@@ -90,6 +103,11 @@ ${OBJECTDIR}/stop.o: stop.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stop.o stop.cpp
+
+${OBJECTDIR}/tourelle.o: tourelle.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tourelle.o tourelle.cpp
 
 # Subprojects
 .build-subprojects:

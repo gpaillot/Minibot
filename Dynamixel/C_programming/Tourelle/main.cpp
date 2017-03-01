@@ -25,6 +25,8 @@
 
 #include "initTourelle.h"
 #include "stop.h"
+#include "globals.h"
+#include "tourelle.h"
 
 using namespace std;
 
@@ -32,13 +34,19 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-    roue();
+   
+    MyMCP2515 *MyCAN = new MyMCP2515();
+    MyCAN->doInit();
+    MyDE0Nano *nano = new MyDE0Nano();
     
-    printf("Before init\n");
-    initTourelle();
-    printf("After init\n");
-    time_sleep(10);
-    //stop();
+    MyTourelle tourelle(MyCAN, nano, 0x508);
+    
+    nano->reset();
+    
+    tourelle.setLed(false);
+    tourelle.setSpeed(-25);
+    time_sleep(5);
+    tourelle.setBrake(true);
     
     return 0;
 }
