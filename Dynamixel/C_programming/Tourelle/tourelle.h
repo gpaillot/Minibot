@@ -39,10 +39,16 @@ public:
     void setBrake(bool activate);
     void setLed(bool activate);
     void setSpeed(int speed);
+    int getNumberBeacon();
+    double *getDataBeacon();
+    int nb_falling();
+    int nb_rising();
 private:
     MyMCP2515 *this_can;
     MyDE0Nano *this_nano;
     int this_address;
+    int ticks_number_per_rotation;
+    double beacon_radius;
     char data[3];
 };
 

@@ -14,7 +14,9 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 void makeData( char* data,  char data0,  char data1, 
-			 char data2);
+			 char data2, char data3, bool forCAN);
+int spi2data (char* data);
+int maxdata(int data1, int data2);
 
 
 
