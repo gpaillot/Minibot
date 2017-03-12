@@ -6,15 +6,6 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/stop.cpp</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/main.cpp</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/stop.h</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/Makefile</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/MyMCP2515.cpp</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/MyMCP2515.h</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/initTourelle.cpp</file>
-            <file>file:/C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/C_programming/CAN/initTourelle.h</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

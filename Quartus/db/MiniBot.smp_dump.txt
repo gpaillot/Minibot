@@ -1,0 +1,17 @@
+
+State Machine - |MiniBot|thread
+Name thread.110 thread.101 thread.100 thread.011 thread.010 thread.001 thread.000 
+thread.000 0 0 0 0 0 0 0 
+thread.001 0 0 0 0 0 1 1 
+thread.010 0 0 0 0 1 0 1 
+thread.011 0 0 0 1 0 0 1 
+thread.100 0 0 1 0 0 0 1 
+thread.101 0 1 0 0 0 0 1 
+thread.110 1 0 0 0 0 0 1 
+
+State Machine - |MiniBot|spi_slave:spi_slave_instance|state
+Name state.S3 state.S2 state.S1 state.S0 
+state.S0 0 0 0 0 
+state.S1 0 0 1 1 
+state.S2 0 1 0 1 
+state.S3 1 0 0 1 

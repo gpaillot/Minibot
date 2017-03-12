@@ -15,10 +15,11 @@ module UART_Dynamixel (
 	input				RXD,
 	output			TXD, 
 	output 			UART_DIR,
-	output			debug
+	output			debug,
+	output 			TXD_done
 );
 
-logic 			baud_clk, TXD_done, RXD_enable, RXD_done;
+logic 			baud_clk, RXD_enable, RXD_done;
 logic [31:0] 	TXD_data_1, TXD_data_2, RXD_data_1, RXD_data_2;
 logic communication_fail, start_RX;
 reg TXD_enable_prev, TXD_enable, start_communication;

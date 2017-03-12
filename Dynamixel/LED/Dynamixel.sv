@@ -65,7 +65,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //  SPI
 //=======================================================
 		logic 			spi_clk, spi_cs, spi_mosi, spi_miso, cs_spi;
-		logic [31:0]  spi_data, DataAdrR, DataAdrW;
+		logic [31:0]  spi_data, DataAdrR, DataAdrW; //DataAdrR: from PI to DE0, DataAdrW: from DE0 to PI
 
 	spi_slave spi_slave_instance(
 		.SPI_CLK    (spi_clk),
@@ -106,14 +106,18 @@ input logic 		     [1:0]		GPIO_1_IN
 	logic [31:0] Write_data;
 	logic Write_en, Read_en; 
 	logic [2:0] Rw_ad;
-	logic uart_tx,uart_rx,uart_dir;
+	logic uart_tx,uart_rx,uart_dir, TXD_Done;
+	
+	logic Reset;
+	logic [31:0] my_counter;
+	initial my_counter = 32'd0;
 	
 	
 	
 	//logic a,b;
 
 	assign clk = CLOCK_50;
-	assign reset = GPIO_0_PI[1];
+	//assign reset = GPIO_0_PI[1];
 	
 	// keys
 	assign key0=~KEY[0];
@@ -142,7 +146,7 @@ input logic 		     [1:0]		GPIO_1_IN
 
 	UART_Dynamixel Dyna (
 		.clk(CLOCK_50),
-		.reset(key0),
+		.reset(Reset),
 		.write_en(Write_en),
 		.read_en(Read_en),
 		.rw_ad(Rw_ad),
@@ -151,7 +155,8 @@ input logic 		     [1:0]		GPIO_1_IN
 		.RXD(uart_rx),
 		.TXD(uart_tx),
 		.UART_DIR(uart_dir),
-		.debug(Debug)
+		.debug(Debug),
+		.TXD_done(TXD_Done)
 );
 
 
@@ -160,15 +165,33 @@ input logic 		     [1:0]		GPIO_1_IN
 //  READ DATA
 //=======================================================
 
-	typedef enum logic [2:0] {S0,S1,S2, S3, S4, S5, S6, S7} statetype;
+	typedef enum logic [2:0] {S0,S1,S2, S3, S4,S5,S6,S7} statetype; //,S5,  S6, S7} statetype;
 	statetype state, nextstate;
-	
+/*
 // State Register & Bit counter & SPI Register & MISO
 	always_ff @(posedge clk) begin
 	
 		if (~KEY[0])			state <= S0;
 		else 							state <= nextstate;
 		
+	end
+	*/
+	
+//RESET + states
+	always_ff @(posedge clk) begin
+	
+		if(my_counter==32'd200000 || my_counter==32'd0)
+		begin
+			Reset <= 1'b1;
+			my_counter <= 32'd1;
+			state <= S0;
+		end
+		else 
+		begin
+			my_counter <= my_counter + 1;
+			Reset <= 32'd0;
+			state <= nextstate;
+		end
 	end
 	
 // Next State Logic
@@ -179,22 +202,28 @@ input logic 		     [1:0]		GPIO_1_IN
 		nextstate = state;
 		Rw_ad = 3'b000; 
 		Write_data = 32'h00000000;
-		//WriteData = 32'h0;
+		WriteData = 32'h0;
 		DataAdrR = 32'h0;
+		DataAdrW = 32'h0;
+
 		
 		case (state)
 			S0	:  begin			
 						Rw_ad = 3'b101;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						Write_data = {checksum,24'h02_04fe};
+						//DataAdrR = 32'd0;
+						//Write_data = spi_data;
+						Write_data = 32'hcf0204fe;//hardcode test read_data
 						nextstate = S1;
-					end
+						end
 			S1 : begin			
 						Rw_ad = 3'b110;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						Write_data = 32'h0000_012b;
+						//DataAdrR = 32'd4;
+						//Write_data = spi_data;
+						Write_data = 32'h0000012b;//hardcode test read_data
 						nextstate = S2;
 					end					
 			S2 : begin 			
@@ -206,45 +235,52 @@ input logic 		     [1:0]		GPIO_1_IN
 					end
 			S3: begin
 						Rw_ad = 3'b100;
-						Write_en = 1'b1;
-						Read_en = 1'b0;
-						Write_data = 32'd0; // TXD_en => 0
-						nextstate = S4;
-					end
-			S4: begin
-						Rw_ad = 3'b100;
 						Write_en = 1'b0;
 						Read_en = 1'b1;
-						DataAdrR = 32'h0;
+						if(Read_data[0]) nextstate = S4; // quand TXD_done => 1
+						else nextstate = S3;
+					end	
+			S4: begin
+						Rw_ad = 3'b000;// mettre read_data à 0 ==> sinon il reste a 1 a cause du TXD_Done de l etape precedente 
+						Write_en = 1'b0;
+						Read_en = 1'b1;
 						nextstate = S5;
 					end
-			S5: begin
-						Rw_ad = 3'b001;
-						Write_en = 1'b0;
+			S5 : begin
+						Rw_ad = 3'b000;
 						Read_en = 1'b1;
-						DataAdrR = 32'd4;
-						nextstate = S6;
-					end
-			S6: begin
-						Rw_ad = 3'b010;
 						Write_en = 1'b0;
+						if (Read_data[0]) //quand RXD_Done =>1
+							begin
+								nextstate = S6;
+							end
+						else 
+							begin
+								nextstate = S5;
+							end
+					end			
+				S6 : 	begin
+						Rw_ad = 3'b001; //data1
 						Read_en = 1'b1;
-						DataAdrR = 32'd8;
+						Write_en = 1'b0;
+						DataAdrW = 32'd4;
+						WriteData = Read_data;
 						nextstate = S7;
 					end
-			S7: begin
-						Rw_ad = 3'b000;
-						Write_en = 1'b0;
+				S7 : 	begin
+						Rw_ad = 3'b010;//data2
 						Read_en = 1'b1;
-						DataAdrR = 32'd12;
-						nextstate = S0;
-					end
+						Write_en = 1'b0;
+						DataAdrW = 32'd8;
+						WriteData = Read_data;
+						nextstate = S7;
+						end
 			
 		endcase
 	end
 
 //assign WriteData = Read_data;
-assign WriteData = 32'd3;
+
 
 
 	// LED logic	
@@ -266,28 +302,14 @@ assign WriteData = 32'd3;
 	// SPI output Register
 	 always_ff @(posedge clk)
 	begin 
-		if (sw0)
 		begin
 		cs_spi = 1;
 		DataToPI<= WriteData;
-		DataAdrW = 32'h0000_0000;
-		end
-		else
-		begin
-		cs_spi = 0;
-		DataToPI<= 32'b0;
-		//DataAdrW = 32'bx;
+		//DataAdrW = 32'h0000_0000;
 		end
 	end
 
 
-//=======================================================
-//  CHECKSUM
-//=======================================================
-	logic [7:0]	checksum;
-	
-	check mycheck(32'h0002_04fe, 32'h0000_012b, checksum);
-	
 
 	/*
 //=======================================================
@@ -318,14 +340,14 @@ assign WriteData = 32'd3;
 		case (state)
 			S0	:  begin			
 						Rw_ad = 3'b101;
-						DataAdrW = 32'h0000_0000;
+						DataAdrR = 32'h0000_0000;
 						Write_data = spi_data;
 						//Write_data = 32'he003_04fe;
 						nextstate = S1;
 					end
 			S1 : begin			
 					Rw_ad = 3'b110;
-					DataAdrW = 32'h0000_0004;
+					DataAdrR = 32'h0000_0004;
 					Write_data = spi_data;
 					//Write_data = 32'h0000_0119;
 					nextstate = S2;

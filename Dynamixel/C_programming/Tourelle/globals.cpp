@@ -25,6 +25,7 @@ void makeData( char* data,  char data0,  char data1,
     }
 }
 
+
 int spi2data (char* data)
 {
     int output = (int) data[0] + (256*data[1]) + (256*256*data[1]) + (256*256*256*data[3]);
