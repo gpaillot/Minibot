@@ -1,5 +1,4 @@
 # Reading C:/Users/GuiP/Documents/altera/modelsim_ase/tcl/vsim/pref.tcl
-# ERROR: No extended dataflow license exists
 # do Dyna_test_run_msim_rtl_verilog.do
 # if {[file exists rtl_work]} {
 # 	vdel -lib rtl_work -all
@@ -13,10 +12,10 @@
 # ** Warning: Copied C:/Users/GuiP/Documents/altera/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini.
 #          Updated modelsim.ini.
 # 
-# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/UART_Dynamixel.sv}
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
-# Start time: 12:43:43 on Mar 07,2017
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/UART_Dynamixel.sv 
+# Start time: 15:48:12 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/UART_Dynamixel.sv 
 # -- Compiling module UART_Dynamixel
 # -- Compiling module UART_Dynamixel_TXD
 # -- Compiling module UART_TX_BYTE
@@ -25,33 +24,33 @@
 # 
 # Top level modules:
 # 	UART_Dynamixel
-# End time: 12:43:43 on Mar 07,2017, Elapsed time: 0:00:00
+# End time: 15:48:12 on Feb 21,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/Dyna_test.sv}
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
-# Start time: 12:43:43 on Mar 07,2017
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/Dyna_test.sv 
+# Start time: 15:48:12 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/Dyna_test.sv 
 # -- Compiling module Dyna_test
 # 
 # Top level modules:
 # 	Dyna_test
-# End time: 12:43:44 on Mar 07,2017, Elapsed time: 0:00:01
+# End time: 15:48:13 on Feb 21,2017, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
 # 
-# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/MyTestBench.sv}
+# vlog -sv -work work +incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test {C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv}
 # Model Technology ModelSim ALTERA vlog 10.3d Compiler 2014.10 Oct  7 2014
-# Start time: 12:43:44 on Mar 07,2017
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/MyTestBench.sv 
+# Start time: 15:48:13 on Feb 21,2017
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test" C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Dyna_test/MyTestBench.sv 
 # -- Compiling module MyTestBench
 # 
 # Top level modules:
 # 	MyTestBench
-# End time: 12:43:44 on Mar 07,2017, Elapsed time: 0:00:00
+# End time: 15:48:13 on Feb 21,2017, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  MyTestBench
 # vsim -gui "+altera" -l msim_transcript -do "Dyna_test_run_msim_rtl_verilog.do" 
-# Start time: 12:43:44 on Mar 07,2017
+# Start time: 15:48:13 on Feb 21,2017
 # Loading sv_std.std
 # Loading work.MyTestBench
 # Loading work.Dyna_test
@@ -61,66 +60,12 @@
 # Loading work.UART_TX_BYTE
 # Loading work.UART_Dynamixel_RXD
 # 
-# do C:/Users/GuiP/Documents/GitHub/Minibot/Dynamixel/Dyna_test/simulation/modelsim/wave.do
-# onerror {resume}
-# quietly WaveActivateNextPane {} 0
-# add wave -noupdate -height 25 -radix binary /MyTestBench/dut/Thierry/reset
-# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
-# 
-#           File in use by: Euroclear  Hostname: ROBIN-COMPUTER  ProcessID: 7880
-# 
-#           Attempting to use alternate WLF file "./wlftgi22ji".
-# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
-# 
-#           Using alternate file: ./wlftgi22ji
-# 
-# add wave -noupdate -height 25 /MyTestBench/KEY0
-# add wave -noupdate -height 25 /MyTestBench/dut/state
-# add wave -noupdate -height 25 /MyTestBench/sw
-# add wave -noupdate -height 25 -radix binary /MyTestBench/dut/Thierry/write_en
-# add wave -noupdate -height 25 -radix binary /MyTestBench/dut/Thierry/read_en
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/rw_ad
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/write_data
-# add wave -noupdate -height 25 -radix binary /MyTestBench/dut/Thierry/TXD
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/UART_DIR
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/debug
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/baud_clk
-# add wave -noupdate -height 25 /MyTestBench/dut/TXD_Done
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/RXD_enable
-# add wave -noupdate -color Navy -height 25 /MyTestBench/dut/Thierry/RXD_done
-# add wave -noupdate -color Navy -height 25 /MyTestBench/dut/Thierry/start_RX
-# add wave -noupdate -color Navy -height 25 /MyTestBench/dut/Thierry/TXD_enable_prev
-# add wave -noupdate -color Navy -height 25 /MyTestBench/dut/Thierry/TXD_enable
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/TXD_data_1
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/TXD_data_2
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/RXD_data_1
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/RXD_data_2
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/communication_fail
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/start_communication
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/read_data
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/txd/frame
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/txd/data1
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/txd/data2
-# add wave -noupdate -height 25 -radix hexadecimal /MyTestBench/dut/Thierry/txd/ubyte/buffer
-# add wave -noupdate -height 25 /MyTestBench/dut/Thierry/txd/ubyte/out
-# TreeUpdate [SetDefaultTree]
-# WaveRestoreCursors {{Cursor 5} {3568585426 ps} 0} {{Cursor 6} {9997925749 ps} 0}
-# quietly wave cursor active 1
-# configure wave -namecolwidth 150
-# configure wave -valuecolwidth 89
-# configure wave -justifyvalue left
-# configure wave -signalnamewidth 1
-# configure wave -snapdistance 10
-# configure wave -datasetprefix 0
-# configure wave -rowmargin 4
-# configure wave -childrowmargin 2
-# configure wave -gridoffset 0
-# configure wave -gridperiod 1
-# configure wave -griddelta 40
-# configure wave -timeline 0
-# configure wave -timelineunits ps
-# update
-# WaveRestoreZoom {0 ps} {10500 us}
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
 restart -f
 # Loading sv_std.std
 # Loading work.MyTestBench
@@ -130,16 +75,7 @@ restart -f
 # Loading work.UART_Dynamixel_TXD
 # Loading work.UART_TX_BYTE
 # Loading work.UART_Dynamixel_RXD
+do wave.do
 run 10ms
-restart -f
-# Loading sv_std.std
-# Loading work.MyTestBench
-# Loading work.Dyna_test
-# Loading work.UART_Dynamixel
-# Loading work.Baudrate_Generator
-# Loading work.UART_Dynamixel_TXD
-# Loading work.UART_TX_BYTE
-# Loading work.UART_Dynamixel_RXD
-run 100ms
-# End time: 11:32:59 on Mar 08,2017, Elapsed time: 22:49:15
-# Errors: 0, Warnings: 2
+# End time: 16:46:03 on Feb 21,2017, Elapsed time: 0:57:50
+# Errors: 0, Warnings: 0

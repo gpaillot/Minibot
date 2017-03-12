@@ -11,7 +11,7 @@
 #include <pigpio.h>
 #include <bitset>
 #include <ctime>
-#include <math.h>
+#include <math/h>
 #include <sys/time.h>
 
 #include "MyMCP2515.h"
