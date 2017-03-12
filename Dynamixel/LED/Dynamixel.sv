@@ -110,10 +110,8 @@ input logic 		     [1:0]		GPIO_1_IN
 	
 	logic Reset;
 	logic [31:0] my_counter;
-	logic [31:0] my_counterS6;
 	
 	initial my_counter = 32'b0;
-	initial my_counterS6 = 32'b0;
 	
 	
 	
@@ -183,7 +181,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //RESET + states
 	always_ff @(posedge clk) begin
 	
-		if(my_counter==32'd200000 || my_counter==32'd0)
+		if(my_counter==32'd2000000 || my_counter==32'd0)
 		begin
 			Reset <= 1'b1;
 			my_counter <= 32'd1;
@@ -208,7 +206,6 @@ input logic 		     [1:0]		GPIO_1_IN
 		WriteData = 32'h0;
 		DataAdrR = 32'h0;
 		DataAdrW = 32'h0;
-		my_counterS6 = 32'b0;
 
 		
 		case (state)
@@ -269,7 +266,10 @@ input logic 		     [1:0]		GPIO_1_IN
 						Write_en = 1'b0;
 						DataAdrW = 32'd8;
 						WriteData = Read_data;
-						nextstate = S6_Write; // wait 1 clock50 for writing spi register
+						if(my_counter==32'd1500000)
+							nextstate = S6_Write; // wait 1 clock50 for writing spi register
+						else
+							nextstate = S6;
 					end
 		S6_Write : 	begin
 						Rw_ad = 3'b001; //data1
