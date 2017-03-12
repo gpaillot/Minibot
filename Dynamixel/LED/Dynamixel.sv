@@ -110,7 +110,10 @@ input logic 		     [1:0]		GPIO_1_IN
 	
 	logic Reset;
 	logic [31:0] my_counter;
-	initial my_counter = 32'd0;
+	logic [31:0] my_counterS6;
+	
+	initial my_counter = 32'b0;
+	initial my_counterS6 = 32'b0;
 	
 	
 	
@@ -165,7 +168,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //  READ DATA
 //=======================================================
 
-	typedef enum logic [2:0] {S0,S1,S2, S3, S4,S5,S6,S7} statetype; //,S5,  S6, S7} statetype;
+	typedef enum logic [3:0] {S0,S1,S2, S3, S4,S5,S6,S6_Write, S7} statetype; //,S5,  S6, S7} statetype;
 	statetype state, nextstate;
 /*
 // State Register & Bit counter & SPI Register & MISO
@@ -205,6 +208,7 @@ input logic 		     [1:0]		GPIO_1_IN
 		WriteData = 32'h0;
 		DataAdrR = 32'h0;
 		DataAdrW = 32'h0;
+		my_counterS6 = 32'b0;
 
 		
 		case (state)
@@ -212,18 +216,18 @@ input logic 		     [1:0]		GPIO_1_IN
 						Rw_ad = 3'b101;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						//DataAdrR = 32'd0;
-						//Write_data = spi_data;
-						Write_data = 32'hcf0204fe;//hardcode test read_data
+						DataAdrR = 32'd0;
+						Write_data = spi_data;
+						//Write_data = 32'hcf0204fe;//hardcode test read_data
 						nextstate = S1;
 						end
 			S1 : begin			
 						Rw_ad = 3'b110;
 						Write_en = 1'b1;
 						Read_en = 1'b0;
-						//DataAdrR = 32'd4;
-						//Write_data = spi_data;
-						Write_data = 32'h0000012b;//hardcode test read_data
+						DataAdrR = 32'd4;
+						Write_data = spi_data;
+						//Write_data = 32'h0000012b;//hardcode test read_data
 						nextstate = S2;
 					end					
 			S2 : begin 			
@@ -263,7 +267,15 @@ input logic 		     [1:0]		GPIO_1_IN
 						Rw_ad = 3'b001; //data1
 						Read_en = 1'b1;
 						Write_en = 1'b0;
-						DataAdrW = 32'd4;
+						DataAdrW = 32'd8;
+						WriteData = Read_data;
+						nextstate = S6_Write; // wait 1 clock50 for writing spi register
+					end
+		S6_Write : 	begin
+						Rw_ad = 3'b001; //data1
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						DataAdrW = 32'd8;
 						WriteData = Read_data;
 						nextstate = S7;
 					end
@@ -271,11 +283,10 @@ input logic 		     [1:0]		GPIO_1_IN
 						Rw_ad = 3'b010;//data2
 						Read_en = 1'b1;
 						Write_en = 1'b0;
-						DataAdrW = 32'd8;
+						DataAdrW = 32'd12;
 						WriteData = Read_data;
 						nextstate = S7;
 						end
-			
 		endcase
 	end
 

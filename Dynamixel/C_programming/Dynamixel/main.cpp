@@ -32,18 +32,39 @@ int main(int argc, char** argv) {
 	time_sleep(1);
 	gpioInitialise();
 	unsigned char buf[4] = {0x00, 0x00, 0x00, 0x00}; // first instantiation
-	
-	
-//	Rotate(0x08, 0x090, 0x00, nano, buf);
-//	time_sleep(0.1);
-//	Rotate(0x06, 0x090, 0x00, nano, buf);
-//	time_sleep(0.1);
-	Rotate(0xfe, 0x530, 0x00, nano, buf);
-	time_sleep(5);
-	FreeRun(0x08, nano, buf);
-	LedOn(0x08,nano, buf);
+		
+	LedOff(0x08, nano, buf);
 
+	nano->reset();
+	time_sleep(1);
+	while(1)
+	{
+		SendMessage(0x08,0x04,0x02,0x19,0x01,0x00,nano,buf);
+		nano->readWriteReg(READ, 0x02, buf, 4);
+		for(int i=0; i<4; i++)
+		{
+			cout << (int) buf[i] << endl;
+		}
+		nano->readWriteReg(READ, 0x03, buf, 4);
+		for(int i=0; i<4; i++)
+		{
+			cout << (int) buf[i] << endl;
+		}
+	}
 	
+	
+	//	Rotate(0x08, 0x090, 0x00, nano, buf);
+	//	time_sleep(0.1);
+	
+	
+	
+	
+	//	Rotate(0x06, 0x090, 0x00, nano, buf);
+	//	time_sleep(0.1);
+	//	Rotate(0xfe, 0x530, 0x00, nano, buf);
+	//	time_sleep(5);
+	//	FreeRun(0x08, nano, buf);
+	//	LedOn(0x08,nano, buf);
 	
 	
 	

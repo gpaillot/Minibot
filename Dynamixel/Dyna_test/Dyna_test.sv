@@ -57,7 +57,6 @@ logic rxd, txd, dir, Debug, TXD_Done, Write_en, Read_en;
 logic clk;
 logic Reset;
 logic [31:0] my_counter;
-initial my_counter = 32'b0;
 assign clk = CLOCK_50;
 
 UART_Dynamixel Thierry(
@@ -77,7 +76,7 @@ UART_Dynamixel Thierry(
 	.TXD_done(TXD_Done)
 );
 
-	typedef enum logic [2:0] {S0,S1,S2,S3,S4,S5,S6,S7} statetype;
+	typedef enum logic [3:0] {S0,S1,S2,S3,S4,S5,S6, S6_Write,S7} statetype;
 	statetype state, nextstate;
 	
 // State Register & Bit counter & SPI Register & MISO
@@ -179,6 +178,12 @@ UART_Dynamixel Thierry(
 					end			
 				S6 : 	begin
 						Rw_ad = 3'b001;
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						nextstate = S6_Write;
+						end
+		S6_Write : 	begin
+						Rw_ad = 3'b001; //data1
 						Read_en = 1'b1;
 						Write_en = 1'b0;
 						nextstate = S7;
