@@ -1,4 +1,4 @@
 Info (10281): Verilog HDL Declaration information at UART_Dynamixel.sv(16): object "TXD" differs only in case from object "txd" in the same scope
 Info (10281): Verilog HDL Declaration information at UART_Dynamixel.sv(15): object "RXD" differs only in case from object "rxd" in the same scope
-Warning (10268): Verilog HDL information at Dynamixel.sv(277): always construct contains both blocking and non-blocking assignments
+Warning (10268): Verilog HDL information at Dynamixel.sv(303): always construct contains both blocking and non-blocking assignments
 Info (10281): Verilog HDL Declaration information at Dynamixel.sv(94): object "reset" differs only in case from object "Reset" in the same scope

@@ -34,25 +34,23 @@ int main(int argc, char** argv) {
 	unsigned char buf[4] = {0x00, 0x00, 0x00, 0x00}; // first instantiation
 	
 	
-	Rotate(0x08, 0x300, 0x00, nano, buf);
-	time_sleep(2);
-	EndlessTurn(0x08, 0x328, nano, buf);
+//	Rotate(0x08, 0x090, 0x00, nano, buf);
+//	time_sleep(0.1);
+//	Rotate(0x06, 0x090, 0x00, nano, buf);
+//	time_sleep(0.1);
+	Rotate(0xfe, 0x530, 0x00, nano, buf);
 	time_sleep(5);
-	Rotate(0x08, 0x300, 0x1ff, nano, buf);
-	time_sleep(1);
-	EndlessTurn(0x08, 0x128, nano, buf);
-	Rotate(0x08, 0x300, 0x065, nano, buf);
-	time_sleep(0.5);
-	Rotate(0x08, 0x300, 0x3e0, nano, buf);
-	time_sleep(2);
-	Rotate(0x08, 0x300, 0x00, nano, buf);
-	EndlessTurn(0x08, 0x128, nano, buf);
-	EndlessTurn(0x08, 0x00, nano, buf);
-	LedOn(0x08, nano, buf); 
+	FreeRun(0x08, nano, buf);
+	LedOn(0x08,nano, buf);
 
+	
+	
+	
 	
 	nano->reset();
 	time_sleep(1);
 	delete nano;
     return 0;
 }
+
+

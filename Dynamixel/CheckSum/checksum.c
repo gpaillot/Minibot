@@ -27,3 +27,9 @@ int checksum(unsigned int data1,unsigned int data2)
 
     return check;
 }
+int main()
+{
+	int check = checksum(0x000204fe,0x0000012b);
+	return 
+	
+}

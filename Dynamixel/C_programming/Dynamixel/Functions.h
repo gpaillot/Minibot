@@ -20,6 +20,7 @@ void LedOn(unsigned int id, MyDE0Nano *nano, unsigned char buf[4]);
 void LedOff(unsigned int id, MyDE0Nano *nano, unsigned char buf[4]);
 void EndlessTurn(unsigned int id, int speed, MyDE0Nano *nano, unsigned char buf[4]);
 void Rotate(unsigned int id, int speed, int position, MyDE0Nano *nano, unsigned char buf[4]);
+void FreeRun(unsigned int id, MyDE0Nano *nano, unsigned char buf[4]);
 
 #endif /* FUNCTIONS_H */
 
