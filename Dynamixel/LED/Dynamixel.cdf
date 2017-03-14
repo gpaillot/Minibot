@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22F17) Path("C:/Users/GuiP/Documents/1_EPL/MA1/Projet_mecatro/Dynamixel/Test2/") File("Dynamixel.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE22F17) Path("C:/Users/Euroclear/Documents/GitHub/Minibot/Dynamixel/LED/") File("Dynamixel.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 

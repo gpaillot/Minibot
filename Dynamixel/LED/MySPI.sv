@@ -9,7 +9,8 @@ module spi_slave(
 	input  logic 			SPI_MOSI,
 	output logic 			SPI_MISO,
 	input  logic 			Data_WE,
-	input  logic[31:0] 	Data_Addr,
+	input  logic[31:0] 	Data_Addr_read,
+	input  logic[31:0] 	Data_Addr_write,
 	input  logic[31:0] 	Data_Write,
 	output logic[31:0] 	Data_Read,
 	input  logic			Clk
@@ -23,7 +24,7 @@ module spi_slave(
 	logic [31:0] mosiRAM[15:0];
 	logic 		 mosiRAM_we;
     
-	assign Data_Read = mosiRAM[Data_Addr[5:2]]; 
+	assign Data_Read = mosiRAM[Data_Addr_read[5:2]]; 
 	
 	always_ff @(posedge Clk) begin
 		if (mosiRAM_we) mosiRAM[SPI_reg[35:32]] <= SPI_reg[31:0];
@@ -37,7 +38,7 @@ module spi_slave(
 	assign misoRAM_read = misoRAM[SPI_reg[3:0]];
 	
 	always_ff @(posedge Clk) begin
-		if (Data_WE) misoRAM[Data_Addr[5:2]] <= Data_Write;
+		if (Data_WE) misoRAM[Data_Addr_write[5:2]] <= Data_Write;
 	end
 	
 //---SPI Sysnchronization -------------------------------------

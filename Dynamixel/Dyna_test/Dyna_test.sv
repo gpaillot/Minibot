@@ -52,39 +52,57 @@ input 		     [3:0]		SW;
 //=======================================================
 
 logic [2:0] Rw_ad;
-logic [31:0] Write_data, Data_useful;
-logic rxd, txd, dir, Debug;
+logic [31:0] Write_data, Read_data;
+logic rxd, txd, dir, Debug, TXD_Done, Write_en, Read_en;
 logic clk;
-
+logic Reset;
+logic [31:0] my_counter;
 assign clk = CLOCK_50;
 
 UART_Dynamixel Thierry(
 	// NIOS signals
 	.clk(CLOCK_50),
-	.reset(~KEY[0]),
-	.write_en(1'b1),
-	.read_en(1'b0),
+	.reset(Reset), // readData venant du SPI 
+	.write_en(Write_en),
+	.read_en(Read_en),
 	.rw_ad(Rw_ad),
 	.write_data(Write_data),
+	.read_data(Read_data),
 	// exported signals
 	.RXD(rxd),
 	.TXD(txd), 
 	.UART_DIR(dir),
 	.debug(Debug),
-	.data_useful(Data_useful)
+	.TXD_done(TXD_Done)
 );
 
-	typedef enum logic [1:0] {S0,S1,S2,S3} statetype;
+	typedef enum logic [3:0] {S0,S1,S2,S3,S4,S5,S6, S6_Write,S7} statetype;
 	statetype state, nextstate;
 	
 // State Register & Bit counter & SPI Register & MISO
+	/*always_ff @(posedge clk) begin
+	
+		if (KEY[0])			state <= S0;
+		else 						state <= nextstate;
+		
+	end*/
+	//Reset
 	always_ff @(posedge clk) begin
 	
-		if (~KEY[0])			state <= S0;
-		else 							state <= nextstate;
+		if(my_counter==32'd200000 || my_counter==32'd0)
+		begin
+			Reset <= 1'b1;
+			my_counter <= 32'd1;
+			state <= S0;
+		end
+		else 
+		begin
+			my_counter <= my_counter + 1;
+			Reset <= 32'd0;
+			state <= nextstate;
+		end
 		
 	end
-	
 // Next State Logic
 
 	always_comb begin
@@ -93,30 +111,89 @@ UART_Dynamixel Thierry(
 		nextstate = state;
 		Rw_ad = 3'b000; 
 		Write_data = 32'h00000000;
+		Read_en = 1'b0;
+		Write_en = 1'b0;
 		
 		case (state)
-			S0	:  begin			
-						Rw_ad = 3'b101;
-						Write_data = 32'he003_04fe;
-						nextstate = S1;
-					end
+			S0	: 
+						begin
+							Rw_ad = 3'b101;
+							Read_en = 1'b0;
+							Write_en = 1'b1;
+							Write_data = 32'he003_04fe;
+							nextstate = S1;
+						end
 			S1 : begin			
 					Rw_ad = 3'b110;
+					Read_en = 1'b0;
+					Write_en = 1'b1;
 					Write_data = 32'h0000_0119;
 					nextstate = S2;
-					end					
+					end
 			S2 : begin 			
 						Rw_ad = 3'b100;
+						Read_en = 1'b0;
+						Write_en = 1'b1;
 						Write_data = 32'd1;
 						nextstate = S3;
 					end
-			S3: begin
+//			S3: 	begin
+//						Rw_ad = 3'b100;
+//						Read_en = 1'b0;
+//						Write_en = 1'b1;
+//						Write_data = 32'd0;
+//						nextstate = S4;
+//					end	
+			S3 : 	begin
 						Rw_ad = 3'b100;
-						Write_data = 32'd0;
-						nextstate = S0;
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						if (Read_data[0]) //TXD_Done
+							begin
+								nextstate = S4;
+							end
+						else 
+							begin
+								nextstate = S3;
+							end
+					end		
+			S4 : begin
+						Rw_ad = 3'b000; // mettre read_data à 0 
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						nextstate = S5;
+					end				
+			S5 : begin
+						Rw_ad = 3'b000;
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						if (Read_data[0]) //RXD_Done
+							begin
+								nextstate = S6;
+							end
+						else 
+							begin
+								nextstate = S5;
+							end
+					end			
+				S6 : 	begin
+						Rw_ad = 3'b001;
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						nextstate = S6_Write;
+						end
+		S6_Write : 	begin
+						Rw_ad = 3'b001; //data1
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						nextstate = S7;
 					end
-			
-			
+				S7 : 	begin
+						Rw_ad = 3'b010;
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						nextstate = S7;
+					end
 		endcase
 	end
 endmodule

@@ -1,8 +1,7 @@
-/*
- * Author: LELME2002 class
- * Description: A module that makes the interface between the dynamixels and the fpga
- * Date 15/05/2016
- */
+//----------------------------------------------------------------------
+// Module making the interface between the NIOS and the module UART_TXT
+// It reads and writes in registers exported from the NIOS
+//-----------------------------------------------------------------------
 module UART_Dynamixel (
 	// NIOS signals
 	input				clk,
@@ -11,20 +10,19 @@ module UART_Dynamixel (
 	input				read_en,
 	input  reg[2:0]	rw_ad,
 	input  reg[31:0]	write_data,
+	output reg[31:0]	read_data,
 	// exported signals
 	input				RXD,
 	output			TXD, 
 	output 			UART_DIR,
 	output			debug,
-	output reg[31:0] data_useful
+	output 			TXD_done
 );
 
-logic 			baud_clk, TXD_done, RXD_enable, RXD_done;
+logic 			baud_clk, RXD_enable, RXD_done, RXD_is_done;
 logic [31:0] 	TXD_data_1, TXD_data_2, RXD_data_1, RXD_data_2;
 logic communication_fail, start_RX;
 reg TXD_enable_prev, TXD_enable, start_communication;
-
-logic [31:0]	read_data;
 
 always_ff @(posedge clk)	begin
 	// TXD
@@ -35,13 +33,15 @@ always_ff @(posedge clk)	begin
 	//RXD
 	else if ((read_en) & (rw_ad == 3'b001)) read_data 	<= RXD_data_1;
 	else if ((read_en) & (rw_ad == 3'b010)) read_data 	<= RXD_data_2;
-	else if ((read_en) & (rw_ad == 3'b000)) read_data 	<= {30'b0, communication_fail, RXD_done};
+	else if ((read_en) & (rw_ad == 3'b000)) read_data 	<= {30'b0, communication_fail, RXD_is_done};
 end
 
 Baudrate_Generator baudgen(clk, reset, baud_clk);
 UART_Dynamixel_TXD txd(clk, baud_clk, reset, start_RX, TXD_data_1, TXD_data_2, TXD, UART_DIR, TXD_done);
-UART_Dynamixel_RXD rxd(baud_clk, reset, start_RX, RXD, RXD_done, communication_fail, RXD_data_1, RXD_data_2,data_useful);
+UART_Dynamixel_RXD rxd(baud_clk, reset, start_RX, RXD, RXD_done, communication_fail, RXD_data_1, RXD_data_2, RXD_is_done);
 assign debug = start_communication;
+
+
 
 //assign start_communication = TXD_enable;
 
@@ -204,7 +204,7 @@ module UART_Dynamixel_RXD (
 	input logic					clk, reset, start_communication, RXD,
 	output logic				data_ready, fail_reg,
 	output logic [31:0] 		data1, data2,
-	output logic [31:0] data_useful
+	output logic 				RXD_is_done
 );
 
 typedef enum logic [2:0] {S0,S1,S2,S3} statetype;
@@ -221,7 +221,7 @@ assign end_of_packet	= (RXD_reg == 12'hFFF);
 assign communication_fail = cnt_fail > 8'd200;
 
 always_ff @(posedge clk, posedge reset) begin
-	if(reset)state <= S0;
+	if(reset) state <= S0;
 	else if(communication_fail) state <= S0;
 	else 		 state <= nextstate;
 end
@@ -262,6 +262,8 @@ always_ff @(posedge clk) begin
 	if(state == S0) begin
 		data_ready	<= 1'b1;
 		cnt_fail		<= 8'b0;
+		RXD_is_done <= 1'b0;
+
 	end
 	else if(state == S1) begin
 		cnt_fail		<= cnt_fail + 8'b1;
@@ -276,10 +278,7 @@ always_ff @(posedge clk) begin
 	else if(state == S3) begin
 		data1 		<= {Checksum, Error, Length, ID};
 		data2 		<= {P2,P1};
-		data_useful[7:0] <= ID;
-		data_useful[15:8] <= Length;
-		data_useful[23:16] <= P1;
-		data_useful[31:24] <= P2;
+		RXD_is_done <= 1'b1;
 	end
 end
 
@@ -307,6 +306,8 @@ always_ff @(posedge clk) begin
 		else if((cnt_byte == 4'd8) && (Length == 8'd4)) Checksum <= data;	
 	end
 end
+
+
 endmodule
 
 //--------------------------------------------------------------------------
@@ -320,8 +321,7 @@ always @(posedge clk or posedge reset) begin
 	if (reset) cnt <= 10'b0;
 	else begin
 		cnt <= cnt + 10'b1;
-		if(cnt == 10'd875) begin		
-		//if(cnt == 10'd868) begin		
+		if(cnt == 10'd875) begin				
 			cnt <= 10'b0;
 		end
 	end 
