@@ -19,7 +19,7 @@ module UART_Dynamixel (
 	output 			TXD_done
 );
 
-logic 			baud_clk, RXD_enable, RXD_done;
+logic 			baud_clk, RXD_enable, RXD_done, RXD_is_done;
 logic [31:0] 	TXD_data_1, TXD_data_2, RXD_data_1, RXD_data_2;
 logic communication_fail, start_RX;
 reg TXD_enable_prev, TXD_enable, start_communication;
@@ -33,12 +33,12 @@ always_ff @(posedge clk)	begin
 	//RXD
 	else if ((read_en) & (rw_ad == 3'b001)) read_data 	<= RXD_data_1;
 	else if ((read_en) & (rw_ad == 3'b010)) read_data 	<= RXD_data_2;
-	else if ((read_en) & (rw_ad == 3'b000)) read_data 	<= {30'b0, communication_fail, RXD_done};
+	else if ((read_en) & (rw_ad == 3'b000)) read_data 	<= {30'b0, communication_fail, RXD_is_done};
 end
 
 Baudrate_Generator baudgen(clk, reset, baud_clk);
 UART_Dynamixel_TXD txd(clk, baud_clk, reset, start_RX, TXD_data_1, TXD_data_2, TXD, UART_DIR, TXD_done);
-UART_Dynamixel_RXD rxd(baud_clk, reset, start_RX, RXD, RXD_done, communication_fail, RXD_data_1, RXD_data_2);
+UART_Dynamixel_RXD rxd(baud_clk, reset, start_RX, RXD, RXD_done, communication_fail, RXD_data_1, RXD_data_2, RXD_is_done);
 assign debug = start_communication;
 
 
@@ -203,7 +203,8 @@ endmodule
 module UART_Dynamixel_RXD (
 	input logic					clk, reset, start_communication, RXD,
 	output logic				data_ready, fail_reg,
-	output logic [31:0] 		data1, data2
+	output logic [31:0] 		data1, data2,
+	output logic 				RXD_is_done
 );
 
 typedef enum logic [2:0] {S0,S1,S2,S3} statetype;
@@ -261,6 +262,8 @@ always_ff @(posedge clk) begin
 	if(state == S0) begin
 		data_ready	<= 1'b1;
 		cnt_fail		<= 8'b0;
+		RXD_is_done <= 1'b0;
+
 	end
 	else if(state == S1) begin
 		cnt_fail		<= cnt_fail + 8'b1;
@@ -275,6 +278,7 @@ always_ff @(posedge clk) begin
 	else if(state == S3) begin
 		data1 		<= {Checksum, Error, Length, ID};
 		data2 		<= {P2,P1};
+		RXD_is_done <= 1'b1;
 	end
 end
 

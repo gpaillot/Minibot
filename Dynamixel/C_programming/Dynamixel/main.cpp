@@ -33,19 +33,52 @@ int main(int argc, char** argv) {
 	gpioInitialise();
 	unsigned char buf[4] = {0x00, 0x00, 0x00, 0x00}; // first instantiation
 		
-	LedOn(0x06, nano, buf);
+	
 
 	nano->reset();
-	time_sleep(5);
-
+	//time_sleep(0.01);
+//	time_sleep(1);
+//	LedOff(0x06, nano, buf);
+//	time_sleep(1);
+//	LedOn(0x06, nano, buf);
+//	time_sleep(1);
+//	LedOff(0x06, nano, buf);
+//	time_sleep(1);
+//	LedOn(0x06, nano, buf);
+//	time_sleep(1);
+//	LedOff(0x06, nano, buf);
+//	time_sleep(1);
+//	printf("Done");
+	
+		LedOn(0x06, nano, buf);
 		SendMessage(0x06,0x04,0x02,0x19,0x01,0x00,nano,buf);
 		nano->readWriteReg(READ, 0x02, buf, 4);
 		cout << "data1: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
 		nano->readWriteReg(READ, 0x03, buf, 4);
 		cout << "data2: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
-
+		
+		LedOff(0x06, nano, buf);
+		SendMessage(0x06,0x04,0x02,0x19,0x01,0x00,nano,buf);
+		nano->readWriteReg(READ, 0x02, buf, 4);
+		cout << "data1: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
+		nano->readWriteReg(READ, 0x03, buf, 4);
+		cout << "data2: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;		
+		
+		LedOn(0x06, nano, buf);
+		SendMessage(0x06,0x04,0x02,0x19,0x01,0x00,nano,buf);
+		nano->readWriteReg(READ, 0x02, buf, 4);
+		cout << "data1: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
+		nano->readWriteReg(READ, 0x03, buf, 4);
+		cout << "data2: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;	
+		
+		LedOff(0x06, nano, buf);
+		SendMessage(0x06,0x04,0x02,0x19,0x01,0x00,nano,buf);
+		nano->readWriteReg(READ, 0x02, buf, 4);
+		cout << "data1: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
+		nano->readWriteReg(READ, 0x03, buf, 4);
+		cout << "data2: " << (int) buf[0] << " " << (int) buf[1] << " "  << (int) buf[2] << " " << (int) buf[3] << endl;
 	
-	
+	printf("Done");
 	
 	//	Rotate(0x08, 0x090, 0x00, nano, buf);
 	//	time_sleep(0.1);

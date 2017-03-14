@@ -13,18 +13,17 @@
 #include <iomanip>
 using namespace std;
 
+// SendMessage(id,length,instr,P0,P1,P2,MyDE0Nano *nano,unsigned char buf[4]);
+
 void SendMessage(unsigned int id,unsigned int length,unsigned int instr,unsigned int P0,unsigned int P1,unsigned int P2,MyDE0Nano *nano, unsigned char buf[4])
 {
-	/*
-	 SendMessage(id,length,instr,P0,P1,P2,MyDE0Nano *nano,unsigned char buf[4])
-	 */
     int check = (~(id+length+instr+P0+P1+P2)) & 0x000000FF;
 	
     genBuf(buf,check, instr, length, id);
     nano->readWriteReg(WRITE, 0x00, buf, 4);
     genBuf(buf, 0x00, P2, P1, P0);
     nano->readWriteReg(WRITE, 0x01, buf, 4);
-    time_sleep(0.05);
+    time_sleep(0.8);
 }
 
 void LedOn(unsigned int id, MyDE0Nano *nano, unsigned char buf[4])
@@ -33,7 +32,8 @@ void LedOn(unsigned int id, MyDE0Nano *nano, unsigned char buf[4])
 	 LedOn(0x08, nano, buf); --> turns the LED of dynamixel with id 0x08 ON
 	 */
 	SendMessage(id,0x04,0x03,0x19,0x01,0x00,nano,buf);
-	cout << "Dynamixel 0x0" << id << " : " << "led ON " << endl;	
+	cout << "Dynamixel 0x0" << id << " : " << "led ON " << endl;
+	
 }
 
 void LedOff(unsigned int id, MyDE0Nano *nano, unsigned char buf[4])
@@ -55,11 +55,18 @@ void EndlessTurn(unsigned int id, int speed, MyDE0Nano *nano, unsigned char buf[
 	int speedH = (speed & 0x00000F00)>>8;
 	double percent = 100*speed/1023.0;
 	
-	SendMessage(id,0x05,0x03,0x06,0x00,0x00,nano,buf); // CW angle limit set to 0
-	SendMessage(id,0x05,0x03,0x08,0x00,0x00,nano,buf); // CCW angle limit set to 0
+	SendMessage(id,0x05,0x03,0x06,0x00,0x00,nano,buf);
+	//cout << "CW angle limit set to 0" << endl;
+	SendMessage(id,0x05,0x03,0x08,0x00,0x00,nano,buf);
+	//cout << "CCW angle limit set to 0" << endl;
+    
 	SendMessage(id,0x05,0x03,0x20,speedL,speedH,nano,buf); // set speed 
 	printf("Dynamixel 0x%02x : endless turn at speed: 0x%03x (= %d/1023 = %.2f%% of max speed)\n", id, speed, speed, percent);
-	printf("Dynamixel 0x%02x : speedH = 0x%02x and speedL = 0x%02x \n\n", id, speedH, speedL);	
+	printf("Dynamixel 0x%02x : speedH = 0x%02x and speedL = 0x%02x \n\n", id, speedH, speedL);
+	
+	//cout << "Dynamixel 0x0" << id << " : " << "endless turn at speed: 0x" << hex << speed << "( = " << dec << speed << "/1023 = " << c << ")" << endl;
+	//cout << "Dynamixel 0x0" << id << " : speedH = 0x0" << hex << speedH << " and speedL = 0x" << hex << speedL << endl;
+	
 }
 
 void Rotate(unsigned int id, int speed, int position, MyDE0Nano *nano, unsigned char buf[4])
@@ -78,12 +85,5 @@ void Rotate(unsigned int id, int speed, int position, MyDE0Nano *nano, unsigned 
 	printf("Dynamixel 0x%02x : speedH = 0x%02x and speedL = 0x%02x \n", id, speedH, speedL);
 	printf("Dynamixel 0x%02x : going to position: 0x%03x (= %.2f degrees) \n", id, position, angle);
 	printf("Dynamixel 0x%02x : positionH = 0x%02x and positionL = 0x%02x \n\n", id, positionH, positionL);
-}
-void FreeRun(unsigned int id, MyDE0Nano *nano, unsigned char buf[4])
-{
-	/*
-	 When the value of the max torque is set to 0, the dynamixel enters the free run mode
-	 */
-	SendMessage(id,0x05,0x03,0x0E,0x00,0x00,nano,buf); // max torque is set to zero
-	printf("Dynamixel 0x%02x : Free run \n", id);	
+	
 }

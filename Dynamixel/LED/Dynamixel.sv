@@ -110,8 +110,10 @@ input logic 		     [1:0]		GPIO_1_IN
 	
 	logic Reset;
 	logic [31:0] my_counter;
+	logic [31:0] my_counterS6;
 	
 	initial my_counter = 32'b0;
+	initial my_counterS6 = 32'b0;
 	
 	
 	
@@ -166,7 +168,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //  READ DATA
 //=======================================================
 
-	typedef enum logic [3:0] {S0,S1,S2, S3, S4,S5,S6,S6_Write, S7} statetype; //,S5,  S6, S7} statetype;
+	typedef enum logic [3:0] {S0,S1,S2, S3, S4,S5, S5_wait,S6,S6_Write, S7} statetype; //,S5,  S6, S7} statetype;
 	statetype state, nextstate;
 /*
 // State Register & Bit counter & SPI Register & MISO
@@ -181,7 +183,7 @@ input logic 		     [1:0]		GPIO_1_IN
 //RESET + states
 	always_ff @(posedge clk) begin
 	
-		if(my_counter==32'd2000000 || my_counter==32'd0)
+		if(my_counter==32'd200000 || my_counter==32'd0) // ne pas descendre en dessous de 200000
 		begin
 			Reset <= 1'b1;
 			my_counter <= 32'd1;
@@ -251,25 +253,30 @@ input logic 		     [1:0]		GPIO_1_IN
 						Rw_ad = 3'b000;
 						Read_en = 1'b1;
 						Write_en = 1'b0;
-						if (Read_data[0]) //quand RXD_Done =>1
+						if (Read_data[0]) //quand RXD_is_done =>1
 							begin
-								nextstate = S6;
+								nextstate = S5_wait;
 							end
 						else 
 							begin
 								nextstate = S5;
 							end
-					end			
+					end		
+		S5_wait: begin
+						Rw_ad = 3'b001; //data1
+						Read_en = 1'b1;
+						Write_en = 1'b0;
+						//DataAdrW = 32'd8;
+						//WriteData = Read_data;
+						nextstate = S6; // wait 1 clock50 for writing spi register
+					end	
 				S6 : 	begin
 						Rw_ad = 3'b001; //data1
 						Read_en = 1'b1;
 						Write_en = 1'b0;
 						DataAdrW = 32'd8;
 						WriteData = Read_data;
-						if(my_counter==32'd1500000)
-							nextstate = S6_Write; // wait 1 clock50 for writing spi register
-						else
-							nextstate = S6;
+						nextstate = S6_Write; // wait 1 clock50 for writing spi register
 					end
 		S6_Write : 	begin
 						Rw_ad = 3'b001; //data1
@@ -287,6 +294,7 @@ input logic 		     [1:0]		GPIO_1_IN
 						WriteData = Read_data;
 						nextstate = S7;
 						end
+			default: nextstate = S0;
 		endcase
 	end
 
